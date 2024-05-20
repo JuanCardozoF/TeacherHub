@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+    <item
+        android:id="@+id/users"
+        android:title="Users"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+    <item
+        android:id="@+id/teachers"
+        android:title="Teachers"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+    <item
+        android:id="@+id/courses"
+        android:title="Courses"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+    <item
+        android:id="@+id/logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+</menu>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.teacherhub.ui.admin.InicioFragment"
+        android:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/users"
+        android:name="com.example.teacherhub.ui.admin.usersFragment"
+        android:layout="@layout/fragment_users" />
+    <fragment
+        android:id="@+id/teachers"
+        android:name="com.example.teacherhub.ui.admin.TeachersFragment"
+        android:layout="@layout/fragment_teachers" />
+    <fragment
+        android:id="@+id/courses"
+        android:name="com.example.teacherhub.ui.admin.CoursesFragment"
+        android:layout="@layout/fragment_courses" />
+
+</navigation>
