@@ -32,15 +32,6 @@ public class token {
     }
     public String getTokenSring() { return TokenString; }
     public void setTokenSring(String tokenSring) { TokenString = tokenSring;}
-
-    public static token getInstance() {
-        return Instance;
-    }
-
-    public static void setInstance(token instance) {
-        Instance = instance;
-    }
-
     public static token getInstanceToke() {return  Instance; }
 
 }

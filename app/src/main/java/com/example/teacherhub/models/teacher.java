@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class teacher {
     private String id;
     private String name;
-    private ArrayList<curse> curses;
+    private ArrayList<course> curs;
 
 
-    public teacher(String id, String name, ArrayList<curse> curses) {
+    public teacher(String id, String name, ArrayList<course> curs) {
         this.id = id;
         this.name = name;
-        this.curses = curses;
+        this.curs = curs;
     }
 
     public String getId() {
@@ -30,11 +30,11 @@ public class teacher {
         this.name = name;
     }
 
-    public ArrayList<curse> getCurses() {
-        return curses;
+    public ArrayList<course> getCurses() {
+        return curs;
     }
 
-    public void setCurses(ArrayList<curse> curses) {
-        this.curses = curses;
+    public void setCurses(ArrayList<course> curs) {
+        this.curs = curs;
     }
 }

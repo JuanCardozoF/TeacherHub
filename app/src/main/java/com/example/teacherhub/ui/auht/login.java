@@ -48,6 +48,7 @@ public class login extends AppCompatActivity {
         });
 
         Button Blogin = findViewById(R.id.login);
+        Button Bregister = findViewById(R.id.Aregis);
         Email = findViewById(R.id.email);
         passwd = findViewById(R.id.passwd);
 
@@ -55,6 +56,13 @@ public class login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        Bregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
     }

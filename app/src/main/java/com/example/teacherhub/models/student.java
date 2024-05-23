@@ -1,9 +1,10 @@
 package com.example.teacherhub.models;
 
+import com.example.teacherhub.ui.stuedent.Student;
+
 public class student {
     private String id;
     private String nickname;
-
     private String email;
 
     public student(String id, String nickname, String email) {

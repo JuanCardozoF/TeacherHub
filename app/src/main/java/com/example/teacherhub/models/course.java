@@ -1,10 +1,10 @@
 package com.example.teacherhub.models;
 
-public class curse {
+public class course {
     private String id;
     private String name;
 
-    public curse(String id, String name) {
+    public course(String id, String name) {
         this.id = id;
         this.name = name;
     }

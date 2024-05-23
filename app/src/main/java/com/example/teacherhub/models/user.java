@@ -7,6 +7,7 @@ public class user {
     private String password;
     private boolean is_active;
     private String id_role;
+    private static user Instance;
 
     public user(String id, String username, String email, String password, boolean is_active, String id_role) {
         this.id = id;
@@ -15,6 +16,7 @@ public class user {
         this.password = password;
         this.is_active = is_active;
         this.id_role = id_role;
+        Instance = user.this;
     }
 
     public String getId() {
@@ -49,7 +51,7 @@ public class user {
         this.password = password;
     }
 
-    public boolean isIs_active() {
+    public boolean Is_active() {
         return is_active;
     }
 
@@ -64,4 +66,6 @@ public class user {
     public void setId_role(String id_role) {
         this.id_role = id_role;
     }
+
+    public static user getInstance() {return  Instance; }
 }
