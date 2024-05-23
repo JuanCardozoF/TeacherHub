@@ -1,6 +1,5 @@
 package com.example.teacherhub.models;
 
-import com.example.teacherhub.ui.stuedent.Student;
 
 public class student {
     private String id;
