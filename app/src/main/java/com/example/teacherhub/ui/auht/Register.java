@@ -22,7 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
 import com.example.teacherhub.models.user;
-import com.example.teacherhub.ui.stuedent.Student;
+import com.example.teacherhub.ui.student.Student;
 import com.example.teacherhub.util.AlertHelper;
 import com.example.teacherhub.util.Empty;
 

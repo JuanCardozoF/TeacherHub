@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,9 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
 import com.example.teacherhub.models.token;
 import com.example.teacherhub.ui.admin.Admin;
-import com.example.teacherhub.ui.stuedent.Student;
+import com.example.teacherhub.ui.student.Student;
 import com.example.teacherhub.util.JwtUtil;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
