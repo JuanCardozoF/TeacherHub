@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import com.example.teacherhub.models.token;
 public class UserInfoFragment extends Fragment {
 
     private TextView usernameTextView, emailTextView, roleTextView;
@@ -62,10 +62,10 @@ public class UserInfoFragment extends Fragment {
     }
 
     private void fetchUserData() {
-        String token = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE).getString("token", null);
-        if (token == null) return;
+        String tok = token.getInstanceToke().getTokenSring(); ;
+        if (tok == null) return;
 
-        String userId = "extracted_from_token";
+        String userId = token.getInstanceToke().getUser_id();
         String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -89,7 +89,7 @@ public class UserInfoFragment extends Fragment {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json;charset=UTF-8");
-                headers.put("Authorization", "Bearer " + token);
+                headers.put("Authorization", "Bearer " + tok);
                 return headers;
             }
         };
