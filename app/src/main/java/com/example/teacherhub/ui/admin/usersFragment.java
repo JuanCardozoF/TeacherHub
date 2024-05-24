@@ -3,12 +3,18 @@ package com.example.teacherhub.ui.admin;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import java.util.ArrayList;
+
 import com.example.teacherhub.R;
+import com.example.teacherhub.models.user;
+import com.example.teacherhub.util.UserAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,9 +64,20 @@ public class usersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_users, container, false);
+        RecyclerView recyclerView = root.findViewById(R.id.lista);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        //falta llenar con lo del backend
+        ArrayList<user> userList = new ArrayList<user>();
+        userList.add(new user("codelia", "juan","jaun♣asd","123", true,"2" ));
+        userList.add(new user("johndoe", "pepito", "juan@asdda","123", false,"2"));
+
+        UserAdapter userAdapter = new UserAdapter(userList, getContext());
+        recyclerView.setAdapter(userAdapter);
+
+        return  root;
     }
 }
