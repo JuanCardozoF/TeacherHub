@@ -114,7 +114,7 @@ public class Register extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                user user = new user(id, "","","", true,"1");
+                user user = new user(id, "","","");
                 Toast.makeText(Register.this, "Validado", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(Register.this, Student.class));
             }
