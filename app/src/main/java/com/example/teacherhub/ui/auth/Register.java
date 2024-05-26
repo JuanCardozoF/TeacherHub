@@ -1,4 +1,4 @@
-package com.example.teacherhub.ui.auht;
+package com.example.teacherhub.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;

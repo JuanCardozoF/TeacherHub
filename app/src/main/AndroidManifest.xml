@@ -23,10 +23,10 @@
             android:name=".ui.admin.Admin"
             android:exported="true" />
         <activity
-            android:name=".ui.auht.Register"
+            android:name=".ui.auth.Register"
             android:exported="false" />
         <activity
-            android:name=".ui.auht.login"
+            android:name=".ui.auth.login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
