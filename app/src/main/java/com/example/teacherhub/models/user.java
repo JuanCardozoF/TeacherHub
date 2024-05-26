@@ -9,7 +9,7 @@ public class user {
     private String id_role;
     private static user Instance;
 
-    public user(String id, String username, String email, String password, boolean is_active, String id_role) {
+    public user(String id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
