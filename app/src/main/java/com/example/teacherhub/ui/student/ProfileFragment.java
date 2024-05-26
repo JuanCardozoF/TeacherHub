@@ -120,23 +120,18 @@ public class ProfileFragment extends Fragment {
         saveNicknameButton.setOnClickListener(v -> handleCloseNickname());
         saveEmailButton.setOnClickListener(v -> handleCloseEmail());
 
-        try {
-            fetchUser();
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+
+        fetchUser();
+
     }
 
-    private void fetchUser() throws UnsupportedEncodingException, JSONException {
-        token tokenInstance = new token();
-        String token = tokenInstance.getTokenSring();
+    private void fetchUser() {
+        try {
+            final String mytoken = token.getInstanceToke().getTokenSring();
 
-        JSONObject body = JwtUtil.decoded(token);
 
-        if (token != null) {
-            JSONObject decodedToken = JwtUtil.decoded(token);
+
+            JSONObject decodedToken = JwtUtil.decoded(mytoken);
             String userId = decodedToken.optString("user_id");
 
             String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
@@ -163,14 +158,18 @@ public class ProfileFragment extends Fragment {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json;charset=UTF-8");
                     headers.put("Access-Control-Allow-Origin", "*");
-                    headers.put("Authorization", "Bearer " + token);
+                    headers.put("Authorization", "Bearer " + mytoken);
                     return headers;
                 }
             };
 
             queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            // Manejo de la excepción
+            e.printStackTrace();
         }
     }
+
 
     private void updateUI() {
         if (user != null) {
