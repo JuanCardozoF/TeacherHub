@@ -14,7 +14,10 @@
         android:layout_height="54dp"
         android:layout_marginStart="136dp"
         android:layout_marginTop="56dp"
-        android:text="Button"
+        android:layout_marginBottom="27dp"
+        android:backgroundTint="#D58004"
+        android:text="Login"
+        app:layout_constraintBottom_toTopOf="@+id/Aregis"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwd" />
 
@@ -23,11 +26,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="37dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/passwd"
@@ -40,24 +43,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="269dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="192dp"
-        android:text="TeacherHub"
-        android:textAlignment="center"
-        android:textSize="48sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/Aregis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="558dp" />
+        android:layout_width="134dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="21dp"
+        android:backgroundTint="#DF8501"
+        android:text="Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="332dp"
+        android:layout_height="168dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/captura_de_pantalla_2024_05_22_162118_photoroom_png_photoroom" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
