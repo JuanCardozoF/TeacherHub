@@ -129,6 +129,8 @@ public class ProfileFragment extends Fragment {
         try {
             final String mytoken = token.getInstanceToke().getTokenSring();
 
+
+
             JSONObject decodedToken = JwtUtil.decoded(mytoken);
             String userId = decodedToken.optString("user_id");
 
