@@ -15,9 +15,6 @@ public class token {
 
     }
 
-    public token() {
-
-    }
 
     public String getUser_role() {return user_role; }
     public void setUser_role(String user_role) {
