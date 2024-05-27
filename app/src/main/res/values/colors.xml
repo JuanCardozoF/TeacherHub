@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="sweet_alert_text_color">#FFFFFF</color>
+    <color name="sweet_alert_dialog_background">#4CAF50</color>
+    <color name="sweet_alert_button_text_color">#FFFFFF</color>
+    <color name="sweet_alert_button_pressed">#388E3C</color>
+    <color name="sweet_alert_button_default">#4CAF50</color>
 </resources>

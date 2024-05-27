@@ -7,78 +7,99 @@
     android:layout_height="match_parent"
     tools:context=".ui.auth.Register">
 
-    <Button
-        android:id="@+id/register"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="72dp"
-        android:backgroundTint="#DD8504"
-        android:text="Register"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Conpasswd" />
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="153dp"
+        android:layout_marginEnd="77dp"
+        android:background="@drawable/rentangle_orange"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="hub"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/emailR"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="200dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="5dp"
+        android:text="Teacher"
+        android:textColor="#000000"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="Email" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/passwdR"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="209dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nickname" />
+        app:layout_constraintTop_toBottomOf="@+id/emailR" />
 
     <EditText
         android:id="@+id/Conpasswd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="Confirm Password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwdR"
-        android:hint="Confirm Password"/>
+        app:layout_constraintTop_toBottomOf="@+id/passwdR" />
 
-
+    <EditText
+        android:id="@+id/emailR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="52dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
         android:id="@+id/nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
+        android:hint="Nickname"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailR"
-        android:hint="Nickname"/>
+        app:layout_constraintTop_toBottomOf="@+id/Conpasswd" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="338dp"
-        android:layout_height="102dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/emailR"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#DD8504"
+        android:text="Register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/captura_de_pantalla_2024_05_22_162118_photoroom_png_photoroom" />
+        app:layout_constraintTop_toBottomOf="@+id/nickname" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

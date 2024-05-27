@@ -10,15 +10,15 @@
         android:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/users"
-        android:name="com.example.teacherhub.ui.admin.usersFragment"
-        android:layout="@layout/fragment_users" />
+        android:name="com.example.teacherhub.ui.admin.UsersFragment"
+        android:layout="@layout/fragment_all" />
     <fragment
         android:id="@+id/teachers"
         android:name="com.example.teacherhub.ui.admin.TeachersFragment"
-        android:layout="@layout/fragment_teachers" />
+        android:layout="@layout/fragment_all" />
     <fragment
         android:id="@+id/courses"
         android:name="com.example.teacherhub.ui.admin.CoursesFragment"
-        android:layout="@layout/fragment_courses" />
+        android:layout="@layout/fragment_all" />
 
 </navigation>

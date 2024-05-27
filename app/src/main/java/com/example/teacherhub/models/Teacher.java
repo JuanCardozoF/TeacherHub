@@ -1,17 +1,24 @@
 package com.example.teacherhub.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
-public class teacher {
+public class Teacher {
+
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("name")
     private String name;
-    private ArrayList<course> curs;
+
+    @SerializedName("subjects")
+    private ArrayList<Course> curs;
 
 
-    public teacher(String id, String name, ArrayList<course> curs) {
+    public Teacher(String id, String name) {
         this.id = id;
         this.name = name;
-        this.curs = curs;
     }
 
     public String getId() {
@@ -30,11 +37,11 @@ public class teacher {
         this.name = name;
     }
 
-    public ArrayList<course> getCurses() {
+    public ArrayList<Course> getCurses() {
         return curs;
     }
 
-    public void setCurses(ArrayList<course> curs) {
+    public void setCurses(ArrayList<Course> curs) {
         this.curs = curs;
     }
 }

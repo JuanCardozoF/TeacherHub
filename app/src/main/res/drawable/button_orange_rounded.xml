@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- button_orange_rounded.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="24dp" /> <!-- Radio de las esquinas, ajusta según necesites -->
+    <solid android:color="#FFA500" /> <!-- Color de fondo, puedes cambiarlo por el que desees -->
+</shape>

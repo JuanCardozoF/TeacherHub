@@ -1,22 +1,29 @@
 package com.example.teacherhub.models;
 
-public class user {
+import com.google.gson.annotations.SerializedName;
+
+public class User {
+    @SerializedName("id")
     private String id;
+    @SerializedName("nickname")
     private String username;
+    @SerializedName("email")
     private String email;
     private String password;
+    @SerializedName("active")
     private boolean is_active;
+    @SerializedName("idRole")
     private String id_role;
-    private static user Instance;
+    private static User Instance;
 
-    public user(String id, String username, String email, String password, boolean is_active, String id_role) {
+    public User(String id, String username, String email, String password, boolean is_active, String id_role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.is_active = is_active;
         this.id_role = id_role;
-        Instance = user.this;
+        Instance = User.this;
     }
 
     public String getId() {
@@ -67,5 +74,5 @@ public class user {
         this.id_role = id_role;
     }
 
-    public static user getInstance() {return  Instance; }
+    public static User getInstance() {return  Instance; }
 }

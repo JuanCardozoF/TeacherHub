@@ -1,4 +1,4 @@
-package com.example.teacherhub.util;
+package com.example.teacherhub.util.jwt;
 
 import android.util.Base64;
 

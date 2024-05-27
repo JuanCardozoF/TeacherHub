@@ -23,7 +23,7 @@ import com.example.teacherhub.R;
 import com.example.teacherhub.models.token;
 import com.example.teacherhub.ui.admin.Admin;
 import com.example.teacherhub.ui.student.Student;
-import com.example.teacherhub.util.JwtUtil;
+import com.example.teacherhub.util.jwt.JwtUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -21,10 +21,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
-import com.example.teacherhub.models.user;
+import com.example.teacherhub.models.User;
 import com.example.teacherhub.ui.student.Student;
-import com.example.teacherhub.util.AlertHelper;
-import com.example.teacherhub.util.Empty;
+import com.example.teacherhub.util.helpers.AlertHelper;
+import com.example.teacherhub.util.helpers.Empty;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +114,7 @@ public class Register extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                user user = new user(id, "","","", true,"1");
+                User user = new User(id, "","","", true,"1");
                 Toast.makeText(Register.this, "Validado", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(Register.this, Student.class));
             }

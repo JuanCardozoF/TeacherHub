@@ -1,10 +1,15 @@
 package com.example.teacherhub.models;
 
-public class course {
+import com.google.gson.annotations.SerializedName;
+
+public class Course {
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("name")
     private String name;
 
-    public course(String id, String name) {
+    public Course(String id, String name) {
         this.id = id;
         this.name = name;
     }
