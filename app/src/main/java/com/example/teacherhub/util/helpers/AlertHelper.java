@@ -12,7 +12,6 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.teacherhub.R;
 import com.example.teacherhub.models.Course;
 
 import java.util.ArrayList;

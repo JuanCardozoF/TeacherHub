@@ -74,5 +74,8 @@ public class User {
         this.id_role = id_role;
     }
 
-    public static User getInstance() {return  Instance; }
+    public static User getInstance() {
+        return Instance;
+    }
 }
+

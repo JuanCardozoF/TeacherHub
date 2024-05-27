@@ -84,7 +84,7 @@ public class UsersFragment extends Fragment {
                     User newUser = new User(UUID.randomUUID().toString(), name, email, password, false, "1");
                     userCrudHelper.setJsonObject(newUser);
                     userCrudHelper.setUrl(REGISTER_URL);
-                    userCrudHelper.update(new CrudHelper.VolleyCallback<User>() {
+                    userCrudHelper.Create(new CrudHelper.VolleyCallback<User>() {
                         @Override
                         public void onSuccess(ArrayList<User> result) {
                             fetchUsers();

@@ -6,11 +6,183 @@
     android:background="@color/design_default_color_error"
     tools:context=".ui.student.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="profile"
-        android:layout_gravity="center"/>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Username"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Email"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/roleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Role"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/showPasswordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:layout_gravity="center"
+
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/showNicknameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Nickname"
+            android:layout_gravity="center"
+
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/showEmailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Email"
+            android:layout_gravity="center"
+
+            android:textColor="@android:color/white" />
+
+        <!-- Password Modal -->
+        <LinearLayout
+            android:id="@+id/passwordModal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change your password"
+                android:textSize="18sp"
+                android:layout_gravity="center" />
+
+            <EditText
+                android:id="@+id/passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password" />
+
+            <Button
+                android:id="@+id/closePasswordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exit"
+
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/savePasswordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Nickname Modal -->
+        <LinearLayout
+            android:id="@+id/nicknameModal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change your Nickname"
+                android:textSize="18sp"
+                android:layout_gravity="center" />
+
+            <EditText
+                android:id="@+id/nicknameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nickname" />
+
+            <Button
+                android:id="@+id/closeNicknameButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exit"
+
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/saveNicknameButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Email Modal -->
+        <LinearLayout
+            android:id="@+id/emailModal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change your email"
+                android:textSize="18sp"
+                android:layout_gravity="center" />
+
+            <EditText
+                android:id="@+id/emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email" />
+
+            <Button
+                android:id="@+id/closeEmailButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exit"
+
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/saveEmailButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

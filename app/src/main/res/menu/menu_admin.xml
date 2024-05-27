@@ -3,26 +3,26 @@
     <item
         android:id="@+id/home"
         android:title="Home"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_home_24"
         />
     <item
         android:id="@+id/users"
         android:title="Users"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_home_24"
         />
     <item
         android:id="@+id/teachers"
         android:title="Teachers"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_home_24"
         />
     <item
         android:id="@+id/courses"
         android:title="Courses"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_home_24"
         />
     <item
         android:id="@+id/logout"
         android:title="Cerrar sesión"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_home_24"
         />
 </menu>
