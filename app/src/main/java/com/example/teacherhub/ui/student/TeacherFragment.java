@@ -61,7 +61,7 @@ public class TeacherFragment extends Fragment {
         fetchTeachers();
 
         searchButton.setOnClickListener(v -> {
-            // Implementar lógica de búsqueda aquí si es necesario
+
         });
 
         pdfButton.setOnClickListener(v -> {
