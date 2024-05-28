@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.teacherhub.R;
 import com.example.teacherhub.databinding.ActivityStudentBinding;
-import com.example.teacherhub.ui.admin.CoursesFragment;
+import com.example.teacherhub.ui.student.CourseFragment;
 
 
 public class Student extends AppCompatActivity {
@@ -20,13 +20,13 @@ public class Student extends AppCompatActivity {
         binding = ActivityStudentBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
-        replaceFragment(new CoursesFragment());
+        replaceFragment(new CourseFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.home:
-                    selectedFragment = new CoursesFragment();
+                    selectedFragment = new CourseFragment();
                     break;
                 case R.id.teachers:
                     selectedFragment = new TeacherFragment();

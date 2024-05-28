@@ -1,10 +1,8 @@
 package com.example.teacherhub.ui.student;
-
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -20,10 +19,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
 import com.example.teacherhub.models.User;
 import com.example.teacherhub.models.token;
+import com.example.teacherhub.util.helpers.CrudHelper;
 import com.example.teacherhub.util.jwt.JwtUtil;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +51,9 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-
+    private static final String BASE_URL = "https://spr-test-deploy.onrender.com";
+    private static final String USERS_URL = BASE_URL + "/teacherhub/api/users";
+    private final CrudHelper<User> userCrudHelper = new CrudHelper<>(null, USERS_URL, null);
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -82,6 +86,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initializeViews(view);
+        initializeButtons(view);
+        fetchUser();
+    }
+
+    private void initializeViews(View view) {
         profileImageView = view.findViewById(R.id.profileImageView);
         usernameTextView = view.findViewById(R.id.usernameTextView);
         emailTextView = view.findViewById(R.id.emailTextView);
@@ -92,7 +102,9 @@ public class ProfileFragment extends Fragment {
         passwordInput = view.findViewById(R.id.passwordInput);
         nicknameInput = view.findViewById(R.id.nicknameInput);
         emailInput = view.findViewById(R.id.emailInput);
+    }
 
+    private void initializeButtons(View view) {
         Button showPasswordButton = view.findViewById(R.id.showPasswordButton);
         Button showNicknameButton = view.findViewById(R.id.showNicknameButton);
         Button showEmailButton = view.findViewById(R.id.showEmailButton);
@@ -103,28 +115,83 @@ public class ProfileFragment extends Fragment {
         Button saveNicknameButton = view.findViewById(R.id.saveNicknameButton);
         Button saveEmailButton = view.findViewById(R.id.saveEmailButton);
 
-        showPasswordButton.setOnClickListener(v -> handleShowPassword());
-        showNicknameButton.setOnClickListener(v -> handleShowNickname());
-        showEmailButton.setOnClickListener(v -> handleShowEmail());
-        closePasswordButton.setOnClickListener(v -> handleClosePassword());
-        closeNicknameButton.setOnClickListener(v -> handleCloseNickname());
-        closeEmailButton.setOnClickListener(v -> handleCloseEmail());
-        savePasswordButton.setOnClickListener(v -> handleClosePassword());
-        saveNicknameButton.setOnClickListener(v -> handleCloseNickname());
-        saveEmailButton.setOnClickListener(v -> handleCloseEmail());
+        showPasswordButton.setOnClickListener(v -> handleShowModal(passwordModal));
+        showNicknameButton.setOnClickListener(v -> handleShowModal(nicknameModal));
+        showEmailButton.setOnClickListener(v -> handleShowModal(emailModal));
+        closePasswordButton.setOnClickListener(v -> handleCloseModal(passwordModal));
+        closeNicknameButton.setOnClickListener(v -> handleCloseModal(nicknameModal));
+        closeEmailButton.setOnClickListener(v -> handleCloseModal(emailModal));
+        savePasswordButton.setOnClickListener(v -> handleSave(passwordInput.getText().toString(), "password"));
+        saveNicknameButton.setOnClickListener(v -> handleSave(nicknameInput.getText().toString(), "nickname"));
+        saveEmailButton.setOnClickListener(v -> handleSave(emailInput.getText().toString(), "email"));
+    }
+
+    private void handleShowModal(View modal) {
+        modal.setVisibility(View.VISIBLE);
+    }
+
+    private void handleCloseModal(View modal) {
+        modal.setVisibility(View.GONE);
+    }
 
 
-        fetchUser();
 
+        private void handleSave(String value, String type) {
+            String userId = user.getId();
+            String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
+
+            JSONObject jsonBody = new JSONObject();
+            try {
+                switch (type) {
+                    case "nickname":
+                        jsonBody.put("nickname", value);
+                        break;
+                    case "password":
+                        jsonBody.put("password", value);
+                        break;
+                    case "email":
+                        jsonBody.put("email", value);
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+                    response -> {
+                        // Manejar la respuesta del servidor
+                        System.out.println("Respuesta del servidor: " + response.toString());
+                        // Aquí podrías actualizar la UI con los nuevos datos
+                        updateUI();
+                    },
+                    error -> {
+                        // Manejar el error
+                        error.printStackTrace();
+                    });
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(jsonObjectRequest);
+        }
+
+
+
+    private void updateField(String userId, JSONObject jsonObject) {
+        userCrudHelper.updateField(jsonObject, new CrudHelper.VolleyCallback<User>() {
+            @Override
+            public void onSuccess(ArrayList<User> result) {}
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), "Error actualizando " + jsonObject.keys().next(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void fetchUser() {
         try {
             final String mytoken = token.getInstanceToke().getTokenSring();
-
             JSONObject decodedToken = JwtUtil.decoded(mytoken);
             String userId = decodedToken.optString("user_id");
-
             String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
             RequestQueue queue = Volley.newRequestQueue(getContext());
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -155,11 +222,9 @@ public class ProfileFragment extends Fragment {
 
             queue.add(jsonObjectRequest);
         } catch (Exception e) {
-            // Manejo de la excepción
             e.printStackTrace();
         }
     }
-
 
     private void updateUI() {
         if (user != null) {
@@ -169,33 +234,6 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void handleShowPassword() {
-        showPassword = true;
-        passwordModal.setVisibility(View.VISIBLE);
-    }
 
-    private void handleClosePassword() {
-        showPassword = false;
-        passwordModal.setVisibility(View.GONE);
-    }
-
-    private void handleShowNickname() {
-        showNickname = true;
-        nicknameModal.setVisibility(View.VISIBLE);
-    }
-
-    private void handleCloseNickname() {
-        showNickname = false;
-        nicknameModal.setVisibility(View.GONE);
-    }
-
-    private void handleShowEmail() {
-        showEmail = true;
-        emailModal.setVisibility(View.VISIBLE);
-    }
-
-    private void handleCloseEmail() {
-        showEmail = false;
-        emailModal.setVisibility(View.GONE);
-    }
 }
+

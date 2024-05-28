@@ -3,12 +3,15 @@ package com.example.teacherhub.ui.student;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teacherhub.R;
+import com.example.teacherhub.models.Teacher;
+import com.example.teacherhub.util.helpers.CrudHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +25,10 @@ public class CourseFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String BASE_URL = "https://spr-test-deploy.onrender.com";
+    private static final String TEACHER_URL = BASE_URL + "/teacherhub/api/teachers";
+    private final CrudHelper<Teacher> teacherCrudHelper = new CrudHelper<>(null, TEACHER_URL, null);
+    private static RecyclerView recyclerView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;

@@ -1,5 +1,7 @@
 package com.example.teacherhub.util.helpers;
 
+
+
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.teacherhub.models.User;
 import com.example.teacherhub.models.token;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
@@ -136,8 +140,28 @@ public class CrudHelper<T> {
         Volley.newRequestQueue(context).add(jsonObjectRequest);
     }
 
+    public void updateField(JSONObject jsonObject, VolleyCallback<T> callback) {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
+                response -> {
+                    Toast.makeText(context, "Actualización correcta", Toast.LENGTH_SHORT).show();
+                    callback.onSuccess(null);
+                },
+                error -> {
+                    Toast.makeText(context, "No se ha podido actualizar", Toast.LENGTH_SHORT).show();
+                    callback.onError("Error");
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getAuthorizationHeaders();
+            }
+        };
+        Volley.newRequestQueue(context).add(jsonObjectRequest);
+    }
+
 
     public interface VolleyCallback<T> {
+
         void onSuccess(ArrayList<T> result);
         void onError(String error);
     }
