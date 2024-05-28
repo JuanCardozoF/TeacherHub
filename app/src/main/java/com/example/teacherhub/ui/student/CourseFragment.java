@@ -1,17 +1,58 @@
 package com.example.teacherhub.ui.student;
 
+import static android.content.ContentValues.TAG;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
-import com.example.teacherhub.models.Teacher;
-import com.example.teacherhub.util.helpers.CrudHelper;
+import com.example.teacherhub.models.Course;
+import com.example.teacherhub.models.token;
+import com.example.teacherhub.util.adapter.CoursesAdapter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,16 +61,9 @@ import com.example.teacherhub.util.helpers.CrudHelper;
  */
 public class CourseFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final String BASE_URL = "https://spr-test-deploy.onrender.com";
-    private static final String TEACHER_URL = BASE_URL + "/teacherhub/api/teachers";
-    private final CrudHelper<Teacher> teacherCrudHelper = new CrudHelper<>(null, TEACHER_URL, null);
-    private static RecyclerView recyclerView;
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -37,15 +71,6 @@ public class CourseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CourseFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CourseFragment newInstance(String param1, String param2) {
         CourseFragment fragment = new CourseFragment();
         Bundle args = new Bundle();
@@ -64,10 +89,128 @@ public class CourseFragment extends Fragment {
         }
     }
 
+    private List<Course> courseList = new ArrayList<>();
+    private List<Course> filteredCourseList = new ArrayList<>();
+    private RequestQueue requestQueue;
+    private CoursesAdapter coursesAdapter;
+
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_course, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_course, container, false);
+        requestQueue = Volley.newRequestQueue(requireContext());
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view2);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        coursesAdapter = new CoursesAdapter(filteredCourseList);
+        recyclerView.setAdapter(coursesAdapter);
+
+        EditText searchInput = view.findViewById(R.id.search_input);
+        Button searchButton = view.findViewById(R.id.search_button);
+        Button pdfButton = view.findViewById(R.id.pdf_button);
+
+        fetchTeachers();
+
+        searchButton.setOnClickListener(v -> {
+            String query = searchInput.getText().toString().trim();
+            filterCourses(query);
+        });
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        pdfButton.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                generatePDF(filteredCourseList);
+            } else {
+                Toast.makeText(getContext(), "Permiso de escritura en almacenamiento no concedido", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
+    }
+
+    private void fetchTeachers() {
+        Context context = getContext();
+        String url = "https://spr-test-deploy.onrender.com/teacherhub/api/subjects";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        courseList.clear();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject courseObject = response.getJSONObject(i);
+                                String id = courseObject.getString("id");
+                                Course course = new Course(id, courseObject.getString("name"));
+                                courseList.add(course);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(context, "Error parsing subject data: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "Error parsing subject data", e);
+                            }
+                        }
+                        filteredCourseList.clear();
+                        filteredCourseList.addAll(courseList);
+                        coursesAdapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(context, "Error fetching subjects: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Error fetching subjects", error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json;charset=UTF-8");
+                headers.put("Authorization", "Bearer " + token.getInstanceToke().getTokenSring());
+                return headers;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    private void filterCourses(String query) {
+        filteredCourseList.clear();
+        if (query.isEmpty()) {
+            filteredCourseList.addAll(courseList);
+        } else {
+            for (Course course : courseList) {
+                if (course.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredCourseList.add(course);
+                }
+            }
+        }
+        coursesAdapter.notifyDataSetChanged();
+    }
+
+    private void generatePDF(List<Course> courses) {
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Courses.pdf";
+        File file = new File(path);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            PdfWriter writer = new PdfWriter(fos);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument);
+
+
+            document.add(new Paragraph("Lista de Cursos").setFontSize(20).setBold());
+
+
+            for (Course course : courses) {
+                document.add(new Paragraph(course.getName()));
+            }
+
+            document.close();
+            Toast.makeText(getContext(), "PDF generado en " + path, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

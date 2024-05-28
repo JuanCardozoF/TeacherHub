@@ -47,5 +47,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.recyclerview)
+    implementation (libs.itext7.core)
     implementation (libs.converter.gson)
 }

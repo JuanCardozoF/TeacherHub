@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +26,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
+import com.example.teacherhub.models.Course;
 import com.example.teacherhub.models.Teacher;
 import com.example.teacherhub.models.token;
 import com.example.teacherhub.util.adapter.TeachersAdapter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +50,10 @@ import java.util.Map;
 public class TeacherFragment extends Fragment {
 
     private List<Teacher> teachers = new ArrayList<>();
+    private List<Teacher> filteredTeacherList = new ArrayList<>();
     private RequestQueue requestQueue;
     private TeachersAdapter teacherAdapter;
+
 
     @Nullable
     @Override
@@ -61,7 +73,8 @@ public class TeacherFragment extends Fragment {
         fetchTeachers();
 
         searchButton.setOnClickListener(v -> {
-
+            String query = searchInput.getText().toString().trim();
+            filterCourses(query);
         });
 
         pdfButton.setOnClickListener(v -> {
@@ -91,6 +104,8 @@ public class TeacherFragment extends Fragment {
                                 Log.e(TAG, "Error parsing teacher data", e);
                             }
                         }
+                        filteredTeacherList.clear();
+                        filteredTeacherList.addAll(teachers);
                         teacherAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
@@ -113,9 +128,43 @@ public class TeacherFragment extends Fragment {
         requestQueue.add(jsonArrayRequest);
     }
 
+    private void filterCourses(String query) {
+        filteredTeacherList.clear();
+        if (query.isEmpty()) {
+            filteredTeacherList.addAll(teachers);
+        } else {
+            for (Teacher teach : teachers) {
+                if (teach.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredTeacherList.add(teach);
+                }
+            }
+        }
+        teacherAdapter.notifyDataSetChanged();
+    }
+    private void generatePDF(List<Teacher> teacher) {
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Teachers.pdf";
+        File file = new File(path);
 
-    private void generatePDF(List<Teacher> teachers) {
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            PdfWriter writer = new PdfWriter(fos);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument);
 
+
+            document.add(new Paragraph("Lista de profesores").setFontSize(20).setBold());
+
+
+            for (Teacher teachere : teacher) {
+                document.add(new Paragraph(teachere.getName()));
+            }
+
+            document.close();
+            Toast.makeText(getContext(), "PDF generado en " + path, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error al generar PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }
 

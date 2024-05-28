@@ -7,10 +7,36 @@
     tools:context=".ui.student.CourseFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="courses"
-        android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="375dp"
+            android:layout_height="73dp"
+            android:hint="Search a Course" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="356dp"
+            android:layout_height="wrap_content"
+            android:text="Search" />
+
+        <Button
+            android:id="@+id/pdf_button"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:text="PDF" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+    </LinearLayout>
 
 </FrameLayout>
