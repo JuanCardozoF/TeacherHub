@@ -3,12 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:elevation="4dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/teacher_name"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
+        android:text="Teacher Name"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="12dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_teacher"
+        android:drawablePadding="8dp"
+        android:layout_marginBottom="8dp"/>
 </LinearLayout>
+

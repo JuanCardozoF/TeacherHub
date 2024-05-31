@@ -102,7 +102,7 @@ public class CourseFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        coursesAdapter = new CoursesAdapter(filteredCourseList);
+        coursesAdapter = new CoursesAdapter(getContext(), filteredCourseList);
         recyclerView.setAdapter(coursesAdapter);
 
         EditText searchInput = view.findViewById(R.id.search_input);

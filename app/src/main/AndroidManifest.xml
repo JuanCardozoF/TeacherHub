@@ -19,9 +19,6 @@
         android:theme="@style/Theme.TeacherHub"
         tools:targetApi="31">
         <activity
-            android:name=".ui.auth.RecoveryPassword"
-            android:exported="false" />
-        <activity
             android:name=".util.adapter.CoursesAdapter"
             android:exported="false" />
         <activity

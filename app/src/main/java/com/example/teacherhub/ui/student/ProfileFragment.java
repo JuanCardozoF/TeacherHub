@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -136,42 +137,67 @@ public class ProfileFragment extends Fragment {
 
 
 
-        private void handleSave(String value, String type) {
-            String userId = user.getId();
-            String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
+    private void handleSave(String value, String type) {
+        final String mytoken = token.getInstanceToke().getTokenSring();
+        String userId = user.getId();
+        String url = "https://spr-test-deploy.onrender.com/teacherhub/api/users/" + userId;
 
-            JSONObject jsonBody = new JSONObject();
-            try {
-                switch (type) {
-                    case "nickname":
-                        jsonBody.put("nickname", value);
-                        break;
-                    case "password":
-                        jsonBody.put("password", value);
-                        break;
-                    case "email":
-                        jsonBody.put("email", value);
-                        break;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        JSONObject jsonBody = new JSONObject();
+        try {
+            switch (type) {
+                case "nickname":
+                    jsonBody.put("nickname", value);
+                    break;
+                case "password":
+                    jsonBody.put("password", value);
+                    break;
+                case "email":
+                    jsonBody.put("email", value);
+                    break;
             }
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
-                    response -> {
-                        // Manejar la respuesta del servidor
-                        System.out.println("Respuesta del servidor: " + response.toString());
-                        // Aquí podrías actualizar la UI con los nuevos datos
-                        updateUI();
-                    },
-                    error -> {
-                        // Manejar el error
-                        error.printStackTrace();
-                    });
-
-            RequestQueue queue = Volley.newRequestQueue(getContext());
-            queue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+                response -> {
+                    // Manejar la respuesta del servidor
+                    System.out.println("Respuesta del servidor: " + response.toString());
+                    // Aquí podrías actualizar la UI con los nuevos datos
+                    updateUI();
+                },
+                error -> {
+                    // Manejar el error
+                    if (error.networkResponse != null) {
+                        int statusCode = error.networkResponse.statusCode;
+                        if (statusCode == 405) {
+                            // Método no permitido
+                            Toast.makeText(getContext(), "Error: Método no permitido (405)", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Otro error de red
+                            Toast.makeText(getContext(), "Error de red: " + statusCode, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Error desconocido
+                        Toast.makeText(getContext(), "Error desconocido", Toast.LENGTH_SHORT).show();
+                    }
+                    error.printStackTrace();
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + mytoken);
+                return headers;
+            }
+        };
+
+
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(jsonObjectRequest);
+    }
+
+
 
 
 
