@@ -15,21 +15,23 @@
 
         <EditText
             android:id="@+id/search_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="381dp"
+            android:layout_height="92dp"
             android:hint="Search a teacher" />
 
         <Button
             android:id="@+id/search_button"
-            android:layout_width="356dp"
+            android:layout_width="361dp"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="Search"
+            android:backgroundTint="#DF8501"/>
 
         <Button
             android:id="@+id/pdf_button"
             android:layout_width="362dp"
             android:layout_height="wrap_content"
-            android:text="PDF" />
+            android:text="PDF"
+            android:backgroundTint="#DF8501"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

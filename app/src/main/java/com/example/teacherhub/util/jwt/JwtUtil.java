@@ -19,6 +19,25 @@ public class JwtUtil {
             throw new IllegalArgumentException("Token is invalid: " + e.getMessage(), e);
         }
     }
+    public static String getStudentId(String token) {
+        try {
+            JSONObject decodedToken = JwtUtil.decoded(token);
+            return decodedToken.getString("user_id");
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getNickname(String token) {
+        try {
+            JSONObject decodedToken = JwtUtil.decoded(token);
+            return decodedToken.getString("nickname");
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @NonNull
     private static String getJson(String strEncoded) throws UnsupportedEncodingException {

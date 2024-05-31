@@ -1,22 +1,31 @@
 package com.example.teacherhub.util.adapter;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.teacherhub.R;
 import com.example.teacherhub.models.Teacher;
+import com.example.teacherhub.ui.student.TeacherCoursesActivity;
 
 import java.util.List;
 
 public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.TeacherViewHolder> {
 
     private List<Teacher> teacherList;
-
-    public TeachersAdapter(List<Teacher> teacherList) {
+    private Context context;
+    public TeachersAdapter(Context context, List<Teacher> teacherList) {
+        this.context=context;
         this.teacherList = teacherList;
     }
 
@@ -29,8 +38,19 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.Teache
 
     @Override
     public void onBindViewHolder(@NonNull TeacherViewHolder holder, int position) {
-        Teacher teacher = teacherList.get(position);
+        final Teacher teacher = teacherList.get(position);
         holder.teacherName.setText(teacher.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, TeacherCoursesActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("teacher", teacher);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -44,6 +64,7 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.Teache
         public TeacherViewHolder(@NonNull View itemView) {
             super(itemView);
             teacherName = itemView.findViewById(R.id.teacher_name);
+
         }
     }
 }

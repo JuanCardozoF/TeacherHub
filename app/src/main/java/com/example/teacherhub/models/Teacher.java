@@ -2,9 +2,10 @@ package com.example.teacherhub.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Teacher {
+public class Teacher implements Serializable {
 
     @SerializedName("id")
     private String id;

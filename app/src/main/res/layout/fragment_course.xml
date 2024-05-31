@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral70"
+    android:background="@color/material_dynamic_tertiary99"
     tools:context=".ui.student.CourseFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -23,13 +23,15 @@
             android:id="@+id/search_button"
             android:layout_width="356dp"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="Search"
+            android:backgroundTint="#DF8501"/>
 
         <Button
             android:id="@+id/pdf_button"
             android:layout_width="362dp"
             android:layout_height="wrap_content"
-            android:text="PDF" />
+            android:text="PDF"
+            android:backgroundTint="#DF8501"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view2"

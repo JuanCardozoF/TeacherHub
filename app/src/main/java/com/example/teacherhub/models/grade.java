@@ -8,7 +8,7 @@ public class grade {
     private boolean isPositive;
     private double note;
 
-    public grade(String id, student student, String idTeacherSubject, String comment, boolean isPositive, double note) {
+    public grade(String id, String idTeacherSubject, String comment, boolean isPositive, double note) {
         this.id = id;
         this.student = student;
         this.idTeacherSubject = idTeacherSubject;

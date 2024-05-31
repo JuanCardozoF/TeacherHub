@@ -63,7 +63,7 @@ public class TeacherFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        teacherAdapter = new TeachersAdapter(teachers);
+        teacherAdapter = new TeachersAdapter(getContext(), teachers);
         recyclerView.setAdapter(teacherAdapter);
 
         EditText searchInput = view.findViewById(R.id.search_input);

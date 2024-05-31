@@ -19,6 +19,18 @@
         android:theme="@style/Theme.TeacherHub"
         tools:targetApi="31">
         <activity
+            android:name=".util.adapter.CommentAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.student.TeacherProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".util.adapter.Courses2Adapter"
+            android:exported="false" />
+        <activity
+            android:name=".ui.student.TeacherCoursesActivity"
+            android:exported="false" />
+        <activity
             android:name=".util.adapter.CoursesAdapter"
             android:exported="false" />
         <activity
