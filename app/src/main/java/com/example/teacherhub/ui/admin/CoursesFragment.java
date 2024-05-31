@@ -90,7 +90,7 @@ public class CoursesFragment extends Fragment {
 
     private void createNewUser() {
         courseCrudHelper.setUrl(COURSE_URL);
-        AlertHelper.InputAlert(getContext(), "Crear materia", "name", "Crear", "Cancelar", new AlertHelper.OnInputListener() {
+        AlertHelper.InputAlert(getContext(), "Crear materia", "name","Type the new course:" ,"Create",new AlertHelper.OnInputListener() {
             @Override
             public void onInput(String input) {
                 Course course = new Course(UUID.randomUUID().toString(), input);
@@ -135,7 +135,6 @@ public class CoursesFragment extends Fragment {
                 Course currentCourse = courses.get(position);
                 showModifyCourseDialog(context, currentCourse);
             }
-
             @Override
             public void onDeleteButtonClick(int position) {
                 Course currentCourse = courses.get(position);
@@ -146,7 +145,7 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showModifyCourseDialog(Context context, Course course) {
-        AlertHelper.InputAlert(context, "Modificar materia", "nombre", "Modificar", "Cancelar", new AlertHelper.OnInputListener() {
+        AlertHelper.InputAlert(context, "Modificar materia", "nombre","Type the new name:","Modify", new AlertHelper.OnInputListener() {
             @Override
             public void onInput(String input) {
                 modifyCourse(input, course);

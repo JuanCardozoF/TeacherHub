@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <corners android:radius="4dp" />
-            <solid android:color="@color/sweet_alert_button_pressed" />
+            <solid android:color="#FF9800"/>
+            <corners android:radius="16dp"/>
         </shape>
     </item>
     <item>
         <shape>
-            <corners android:radius="4dp" />
-            <solid android:color="@color/sweet_alert_button_default" />
+            <solid android:color="#FF9800"/>
+            <corners android:radius="16dp"/>
         </shape>
     </item>
 </selector>

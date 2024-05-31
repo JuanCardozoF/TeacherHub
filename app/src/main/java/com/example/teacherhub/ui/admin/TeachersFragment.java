@@ -8,42 +8,30 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.teacherhub.R;
 import com.example.teacherhub.models.Course;
+import com.example.teacherhub.models.TeacherCourse;
 import com.example.teacherhub.models.Teacher;
-import com.example.teacherhub.models.token;
-import com.example.teacherhub.util.adapter.CourseAdapter;
 import com.example.teacherhub.util.adapter.TeacherAdapter;
 import com.example.teacherhub.util.helpers.AlertHelper;
 import com.example.teacherhub.util.helpers.CrudHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,57 +77,49 @@ public class TeachersFragment extends Fragment {
         recyclerView = root.findViewById(R.id.lista);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         teacherCrudHelper.setContextC(getContext());
+
         TextView name = root.findViewById(R.id.textView3);
         name.setText("Teachers");
 
-        fetchTeacher();
+        fetchTeachers();
 
         Button addButton = root.findViewById(R.id.botonAgregar);
-        addButton.setOnClickListener(v -> {
-            createNewUser();
-        });
-
         addButton.setText("Agregar profesor");
+        addButton.setOnClickListener(v -> createNewUser());
 
         return root;
     }
 
     private void createNewUser() {
         teacherCrudHelper.setUrl(TEACHER_URL);
-        AlertHelper.InputAlert(getContext(), "Crear materia", "name", "Crear", "Cancelar", new AlertHelper.OnInputListener() {
-            @Override
-            public void onInput(String input) {
-                Teacher teacher = new Teacher(UUID.randomUUID().toString(),input);
-                teacherCrudHelper.setJsonObject(teacher);
-                teacherCrudHelper.Create(new CrudHelper.VolleyCallback<Teacher>() {
-                    @Override
-                    public void onSuccess(ArrayList<Teacher> result) {
-                        fetchTeacher();
-                    }
-                    @Override
-                    public void onError(String error) {
-                    }
-                });
-            }
+        AlertHelper.InputAlert(getContext(), "Crear profesor", "name", "Type the new teacher:", "Create", input -> {
+            Teacher newTeacher = new Teacher(UUID.randomUUID().toString(), input);
+            teacherCrudHelper.setJsonObject(newTeacher);
+            teacherCrudHelper.Create(new CrudHelper.VolleyCallback<Teacher>() {
+                @Override
+                public void onSuccess(ArrayList<Teacher> result) {
+                    fetchTeachers();
+                }
+
+                @Override
+                public void onError(String error) {
+                    showToast("Error al crear profesor");
+                }
+            });
         });
     }
 
-    private void fetchTeacher() {
-        ArrayList<Teacher> teachers = new ArrayList<>();
-        Context context = getContext();
-        TypeToken<ArrayList<Teacher>> typeToken = new TypeToken<ArrayList<Teacher>>() {};
-
+    private void fetchTeachers() {
         teacherCrudHelper.setUrl(TEACHER_URL);
-        teacherCrudHelper.Read(typeToken, new CrudHelper.VolleyCallback<Teacher>() {
+        teacherCrudHelper.Read(new TypeToken<ArrayList<Teacher>>() {}, new CrudHelper.VolleyCallback<Teacher>() {
             @Override
             public void onSuccess(ArrayList<Teacher> result) {
-                teachers.addAll(result);
-                setupRecyclerView(teachers, context);
+                setupRecyclerView(result, getContext());
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(context, "Error al obtener los profesores", Toast.LENGTH_SHORT).show();
+                showToast("Error al obtener los profesores");
             }
         });
     }
@@ -148,19 +128,22 @@ public class TeachersFragment extends Fragment {
         TeacherAdapter teacherAdapter = new TeacherAdapter(teachers, context, new TeacherAdapter.OnButtonClickListener() {
             @Override
             public void onModifyButtonClick(int position) {
-                Teacher teacher = teachers.get(position);
-                showModifyDialog(context, teacher);
+                showModifyDialog(context, teachers.get(position));
             }
 
             @Override
             public void onDeleteButtonClick(int position) {
-                Teacher teacher = teachers.get(position);
-                deleteUser(teacher.getId());
+                deleteUser(teachers.get(position).getId(), null, "");
             }
 
             @Override
             public void onAddCourseButtonClick(int position) {
-                fetchCourses(context, teachers.get(position).getId());
+                fetchCourses(context, teachers.get(position).getId(), teachers.get(position));
+            }
+
+            @Override
+            public void onDeleteCourseButtonClick(int position) {
+                showAddCourseDialog(context, teachers.get(position).getCurses(), teachers.get(position).getId(), "Eliminar", "Eliminar", true, teachers.get(position));
             }
         });
 
@@ -168,112 +151,128 @@ public class TeachersFragment extends Fragment {
     }
 
     private void showModifyDialog(Context context, Teacher teacher) {
-        AlertHelper.InputAlert(context, "Modificar materia", "nombre", "Modificar", "Cancelar", new AlertHelper.OnInputListener() {
-            @Override
-            public void onInput(String input) {
-                modifyUser(input, teacher);
-            }
-        });
+        AlertHelper.InputAlert(context, "Modificar profesor", "nombre", "Type the new name", "Modify", input -> modifyUser(input, teacher));
     }
 
-    private void fetchCourses(Context context, String teacherId) {
+    private void fetchCourses(Context context, String teacherId, Teacher teacher) {
         String url = "https://spr-test-deploy.onrender.com/teacherhub/api/subjects";
         CrudHelper<Course> courseCrudHelper = new CrudHelper<>(context, url, null);
-        TypeToken<ArrayList<Course>> typeToken = new TypeToken<ArrayList<Course>>() {};
 
-        courseCrudHelper.Read(typeToken, new CrudHelper.VolleyCallback<Course>() {
+        courseCrudHelper.Read(new TypeToken<ArrayList<Course>>() {}, new CrudHelper.VolleyCallback<Course>() {
             @Override
             public void onSuccess(ArrayList<Course> result) {
-                showAddCourseDialog(context, result, teacherId);
+                List<String> teacherCourseIds = teacher.getCurses().stream()
+                        .map(Course::getId)
+                        .collect(Collectors.toList());
+                result.removeIf(course -> teacherCourseIds.contains(course.getId()));
+                showAddCourseDialog(context, result, teacherId, "Agregar curso", "Agregar", false, null);
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(context, "Error al obtener los cursos", Toast.LENGTH_SHORT).show();
+                showToast("Error al obtener los cursos");
             }
         });
     }
 
-    private void showAddCourseDialog(Context context, ArrayList<Course> courses, String teacherId) {
-        AlertHelper.DropdownAlert(context, "Añadir curso", courses, "Agregar", "Cancelar", new AlertHelper.OnDropdownSelectedListener() {
-            @Override
-            public void onDropdownSelected(String selectedOption) {
-                addCourses(selectedOption, teacherId);
+    private void showAddCourseDialog(Context context, ArrayList<Course> courses, String teacherId, String title, String btnPositive, boolean delete, Teacher teacher) {
+        AlertHelper.DropdownAlert(context, title, courses, btnPositive, "Cancelar", selectedOption -> {
+            if (delete) {
+                deleteUser(teacherId, teacher, selectedOption);
+            } else {
+                addCourses(selectedOption, teacherId, false);
             }
         });
     }
 
-    private void modifyUser(String name,Teacher teacher) {
+    private void modifyUser(String name, Teacher teacher) {
         teacher.setName(name);
         teacherCrudHelper.setJsonObject(teacher);
         teacherCrudHelper.setUrl(TEACHER_URL);
         teacherCrudHelper.update(new CrudHelper.VolleyCallback<Teacher>() {
             @Override
             public void onSuccess(ArrayList<Teacher> result) {
-                fetchTeacher();
+                showToast("Se ha modificado el usuario");
+                fetchTeachers();
             }
+
             @Override
             public void onError(String error) {
-
+                showToast("Error al modificar profesor");
             }
         });
-
     }
 
-    private void deleteUser(String id) {
+    private void deleteUser(String id, Teacher teacher, String idCourse) {
         String url = TEACHER_URL + "/" + id;
         teacherCrudHelper.setUrl(url);
         teacherCrudHelper.delete(new CrudHelper.VolleyCallback<Teacher>() {
             @Override
             public void onSuccess(ArrayList<Teacher> result) {
-                fetchTeacher();
+                if (teacher != null) {
+                    deleteCourse(teacher, idCourse);
+                } else {
+                    fetchTeachers();
+                    showToast("Se ha eliminado el usuario");
+                }
             }
+
             @Override
             public void onError(String error) {
+                showToast("Error al eliminar profesor");
             }
         });
     }
 
-    private void addCourses(String idS, String idT) {
+    private void addCourses(String idS, String idT, boolean delete) {
         String url = BASE_URL + "/teacherhub/api/teacherSubject";
-        JSONObject jsonParams = new JSONObject();
+        TeacherCourse params = new TeacherCourse(UUID.randomUUID().toString(), idT, idS);
+        JSONObject jsonParams = null;
         try {
-            jsonParams.put("id", UUID.randomUUID().toString());
-            jsonParams.put("idTeacher", idT);
-            jsonParams.put("idSubject", idS);
+            jsonParams = new JSONObject(new Gson().toJson(params));
         } catch (JSONException e) {
-            Log.e("AddCourse", "Error al crear los parámetros JSON", e);
-            Toast.makeText(getContext(), "Error al crear los parámetros JSON", Toast.LENGTH_SHORT).show();
-            return;
+            throw new RuntimeException(e);
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonParams,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Toast.makeText(getContext(), "Se ha agregado el curso correctamente", Toast.LENGTH_SHORT).show();
-                        fetchTeacher();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage = "Error al procesar la solicitud";
-                        if (error.networkResponse != null) {
-                            errorMessage += ": " + new String(error.networkResponse.data);
-                        } else {
-                            errorMessage += ": " + error.getMessage();
-                        }
-                        Log.e("AddCourse", errorMessage, error);
-                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        teacherCrudHelper.setUrl(url);
+        teacherCrudHelper.addcourse(jsonParams, new CrudHelper.VolleyCallback<Teacher>() {
             @Override
-            public Map<String, String> getHeaders() {
-                return teacherCrudHelper.getAuthorizationHeaders();
+            public void onSuccess(ArrayList<Teacher> result) {
+                if(!delete){
+                    showToast("Se ha añadido el curso");
+                }
+                fetchTeachers();
             }
-        };
 
-        Volley.newRequestQueue(requireContext()).add(jsonObjectRequest);
+            @Override
+            public void onError(String error) {
+                showToast("No se ha podido añadir el curso");
+            }
+        });
     }
+
+    private void deleteCourse(Teacher teacher, String idCourse) {
+        teacher.getCurses().removeIf(course -> course.getId().equals(idCourse));
+        teacherCrudHelper.setJsonObject(teacher);
+        teacherCrudHelper.setUrl(TEACHER_URL);
+        teacherCrudHelper.Create(new CrudHelper.VolleyCallback<Teacher>() {
+            @Override
+            public void onSuccess(ArrayList<Teacher> result) {
+                for (Course course : teacher.getCurses()) {
+                    addCourses(course.getId(), teacher.getId(), true);
+                }
+                showToast("Se ha eliminado el curso");
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast("Error al eliminar curso del profesor");
+            }
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

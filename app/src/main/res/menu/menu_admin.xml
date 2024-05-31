@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
-        android:title="Home"
-        android:icon="@drawable/baseline_home_24"
-        />
-    <item
         android:id="@+id/users"
         android:title="Users"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_supervised_user_circle_24"
         />
     <item
         android:id="@+id/teachers"
         android:title="Teachers"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_accessibility_new_24"
         />
     <item
         android:id="@+id/courses"
         android:title="Courses"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_addchart_24"
         />
     <item
         android:id="@+id/logout"
         android:title="Cerrar sesión"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_arrow_back_24"
         />
 </menu>

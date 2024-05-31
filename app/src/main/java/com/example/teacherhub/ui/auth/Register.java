@@ -142,7 +142,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void showDialog(String id){
-        AlertHelper.InputAlert(Register.this, "Validación de cuenta", "Code ", "Register", "Exit",new AlertHelper.OnInputListener() {
+        AlertHelper.InputAlert(Register.this, "Validación de cuenta", "Code ","Type the code","OK", new AlertHelper.OnInputListener() {
             @Override
             public void onInput(String input) {
                 confirmationCode(id, input);

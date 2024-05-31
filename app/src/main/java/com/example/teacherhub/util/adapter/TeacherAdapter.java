@@ -58,7 +58,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
 
         TextView name;
         TextView list;
-        Button btnModify, btnDelete, btnAddCourse;
+        Button btnModify, btnDelete, btnAddCourse, btnDeleteCourse;
         public TeacherViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameTeacher);
@@ -66,6 +66,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
             btnModify = itemView.findViewById(R.id.btnModifyTeacher);
             btnDelete = itemView.findViewById(R.id.btnDeleteTeacher);
             btnAddCourse = itemView.findViewById(R.id.btnAddcourse);
+            btnDeleteCourse = itemView.findViewById(R.id.btnDeleteCourse);
 
             btnModify.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,6 +103,18 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
                     }
                 }
             });
+
+            btnDeleteCourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(buttonClickListener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            buttonClickListener.onDeleteCourseButtonClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -109,6 +122,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
         void onModifyButtonClick(int position);
         void onDeleteButtonClick(int position);
         void onAddCourseButtonClick (int position);
+        void onDeleteCourseButtonClick (int position);
     }
 
 }

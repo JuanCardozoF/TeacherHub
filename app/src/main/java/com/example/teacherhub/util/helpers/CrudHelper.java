@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.teacherhub.models.Teacher;
 import com.example.teacherhub.models.User;
 import com.example.teacherhub.models.token;
 import com.google.gson.Gson;
@@ -65,13 +66,11 @@ public class CrudHelper<T> {
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                Toast.makeText(context, "Se ha creado correctamente", Toast.LENGTH_SHORT).show();
                 callback.onSuccess(null);
             }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    Toast.makeText(context, "No se ha podido creear", Toast.LENGTH_SHORT).show();
                     callback.onError("Error");
                 }
             }){
@@ -107,11 +106,9 @@ public class CrudHelper<T> {
     public void update(VolleyCallback<T> callback){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
                 response -> {
-                    Toast.makeText(context, "Se ha actualizadao correctamente", Toast.LENGTH_SHORT).show();
                     callback.onSuccess(null);
                 },
                 error -> {
-                    Toast.makeText(context, "No se ha podido actulizar", Toast.LENGTH_SHORT).show();
                     callback.onError("Error");
                 }) {
             @Override
@@ -125,11 +122,9 @@ public class CrudHelper<T> {
     public void delete(VolleyCallback<T> callback){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
                 response -> {
-                    Toast.makeText(context, "Se ha eliminado correctamente", Toast.LENGTH_SHORT).show();
                     callback.onSuccess(null);
                 },
                 error -> {
-                    Toast.makeText(context, "No se ha podifo eliminar", Toast.LENGTH_SHORT).show();
                     callback.onError("Error");
                 }) {
             @Override
@@ -144,11 +139,9 @@ public class CrudHelper<T> {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
                 response -> {
-                    Toast.makeText(context, "Actualización correcta", Toast.LENGTH_SHORT).show();
                     callback.onSuccess(null);
                 },
                 error -> {
-                    Toast.makeText(context, "No se ha podido actualizar", Toast.LENGTH_SHORT).show();
                     callback.onError("Error");
                 }) {
             @Override
@@ -159,14 +152,37 @@ public class CrudHelper<T> {
         Volley.newRequestQueue(context).add(jsonObjectRequest);
     }
 
+    public void addcourse(JSONObject object, VolleyCallback<T> callback){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                response -> {
+                    callback.onSuccess(null);
+                },
+                error -> {
+                    StringBuilder errorMessage = new StringBuilder("Error al procesar la solicitud");
+                    if (error.networkResponse != null) {
+                        errorMessage.append(": ").append(new String(error.networkResponse.data));
+                    } else {
+                        errorMessage.append(": ").append(error.getMessage());
+                    };
+                    callback.onError("Error");
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getAuthorizationHeaders();
+            }
+        };
+
+        Volley.newRequestQueue(context).add(jsonObjectRequest);
+    }
+
 
     public interface VolleyCallback<T> {
 
         void onSuccess(ArrayList<T> result);
         void onError(String error);
-    }
 
-    public Map<String, String> getAuthorizationHeaders() {
+    }
+    private Map<String, String> getAuthorizationHeaders() {
         Map<String, String> headers = new Hashtable<>();
         headers.put("Authorization", "Bearer " + token.getInstanceToke().getTokenSring());
         return headers;

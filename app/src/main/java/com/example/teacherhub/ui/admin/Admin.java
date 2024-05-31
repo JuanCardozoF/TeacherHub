@@ -1,8 +1,12 @@
 package com.example.teacherhub.ui.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -11,6 +15,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.teacherhub.R;
+import com.example.teacherhub.databinding.ActivityAdminBinding;
+import com.example.teacherhub.ui.auth.login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -32,11 +38,12 @@ public class Admin extends AppCompatActivity {
 
     private  void navigation(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_nav_view);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_maim);
         assert navHostFragment != null;
         NavigationUI.setupWithNavController(
                 bottomNavigationView,
                 navHostFragment.getNavController()
         );
     }
+
 }

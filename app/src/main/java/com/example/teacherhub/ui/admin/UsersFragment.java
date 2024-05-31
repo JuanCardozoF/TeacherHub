@@ -22,6 +22,7 @@ import com.example.teacherhub.models.User;
 import com.example.teacherhub.util.adapter.UserAdapter;
 import com.example.teacherhub.util.helpers.AlertHelper;
 import com.example.teacherhub.util.helpers.CrudHelper;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -79,8 +80,8 @@ public class UsersFragment extends Fragment {
     }
 
     private void createNewUser() {
-        AlertHelper.InputAlert3(getContext(), "Crear usuario", "Email", "", "Username", "", "Contraseña", "Password", "Crear", "Cancelar",
-                (email, name, password) -> {
+        AlertHelper.InputAlert3(getContext(), "Crear usuario", "Nickname", "", "Email", "", "Contraseña", "Password", "Cancelar",
+                (name, email, password) -> {
                     User newUser = new User(UUID.randomUUID().toString(), name, email, password, false, "1");
                     userCrudHelper.setJsonObject(newUser);
                     userCrudHelper.setUrl(REGISTER_URL);
@@ -136,7 +137,7 @@ public class UsersFragment extends Fragment {
 
     private void showModifyUserDialog(Context context, User user) {
         AlertHelper.InputAlert3(context, "Modificar usuario", "Nickname", user.getUsername(), "Email", user.getEmail(), "Id_rol", "",
-                "Modificar", "Cancelar", (nickname, email, idRole) -> modifyUser(nickname, email, idRole, user));
+                "Modificar", (nickname, email, idRole) -> modifyUser(nickname, email, idRole, user));
     }
 
 

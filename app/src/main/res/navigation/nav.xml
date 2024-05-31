@@ -2,12 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav"
-    app:startDestination="@id/home">
+    app:startDestination="@id/users">
 
-    <fragment
-        android:id="@+id/home"
-        android:name="com.example.teacherhub.ui.admin.InicioFragment"
-        android:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/users"
         android:name="com.example.teacherhub.ui.admin.UsersFragment"
@@ -19,6 +15,10 @@
     <fragment
         android:id="@+id/courses"
         android:name="com.example.teacherhub.ui.admin.CoursesFragment"
+        android:layout="@layout/fragment_all" />
+    <fragment
+        android:id="@+id/logout"
+        android:name="com.example.teacherhub.ui.admin.logout"
         android:layout="@layout/fragment_all" />
 
 </navigation>

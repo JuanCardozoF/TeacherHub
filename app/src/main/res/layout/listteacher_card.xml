@@ -78,7 +78,18 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@android:color/holo_green_light"
-                android:text="Extra"
+                android:text="+"
+                android:textSize="12sp"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnDeleteCourse"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:text="-"
                 android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
