@@ -152,12 +152,7 @@ public class login extends AppCompatActivity {
                         public void onErrorResponse(VolleyError volleyError) {
                             String errorMessage = "Error al procesar volley";
                             if (volleyError.networkResponse != null) {
-                                try {
-                                    JSONObject mensjae = new JSONObject(new String(volleyError.networkResponse.data));
-                                    errorMessage += ": " +mensjae.getString("description");
-                                } catch (JSONException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                errorMessage += ": " + new String(volleyError.networkResponse.data);
                             } else {
                                 errorMessage += ": " + volleyError.getMessage();
                             }
