@@ -28,17 +28,33 @@ import java.util.Objects;
 public class AlertHelper {
 
         public static void SimpleAlert(Context context, String title, String mensaje, String textoBoton) {
+
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View alertLayout = inflater.inflate(R.layout.simplealert, null);
+
+            TextView titleC = alertLayout.findViewById(R.id.title);
+            titleC.setText(title);
+
+            TextView message = alertLayout.findViewById(R.id.message);
+            message.setText(mensaje);
+
+            Button button = alertLayout.findViewById(R.id.btnAcpet);
+
+
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(title)
-                    .setMessage(mensaje)
-                    .setPositiveButton(textoBoton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            builder.setView(alertLayout);
 
             AlertDialog dialog = builder.create();
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+
             dialog.show();
         }
 

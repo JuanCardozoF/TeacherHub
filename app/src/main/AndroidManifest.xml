@@ -34,6 +34,9 @@
             android:name=".ui.auth.Register"
             android:exported="false" />
         <activity
+            android:name=".ui.auth.RecoveryPassword"
+            android:exported="false" />
+        <activity
             android:name=".ui.auth.login"
             android:exported="true">
             <intent-filter>

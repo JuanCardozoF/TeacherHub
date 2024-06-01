@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,7 @@ import com.example.teacherhub.R;
 import com.example.teacherhub.models.token;
 import com.example.teacherhub.ui.admin.Admin;
 import com.example.teacherhub.ui.student.Student;
+import com.example.teacherhub.util.helpers.AlertHelper;
 import com.example.teacherhub.util.jwt.JwtUtil;
 
 import org.json.JSONException;
@@ -54,7 +56,7 @@ public class login extends AppCompatActivity {
 
         Button Blogin = findViewById(R.id.login);
         Button Bregister = findViewById(R.id.Aregis);
-        Button Recovery = findViewById(R.id.RecoveryPassword);
+        TextView Recovery = findViewById(R.id.RecoveryPassword);
         Email = findViewById(R.id.email);
         passwd = findViewById(R.id.passwd);
 
@@ -86,7 +88,6 @@ public class login extends AppCompatActivity {
         String url = "https://spr-test-deploy.onrender.com/auth/login";
         final String email = Email.getText().toString();
         final String password = passwd.getText().toString();
-
         try {
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("email", email);
@@ -151,12 +152,17 @@ public class login extends AppCompatActivity {
                         public void onErrorResponse(VolleyError volleyError) {
                             String errorMessage = "Error al procesar volley";
                             if (volleyError.networkResponse != null) {
-                                errorMessage += ": " + new String(volleyError.networkResponse.data);
+                                try {
+                                    JSONObject mensjae = new JSONObject(new String(volleyError.networkResponse.data));
+                                    errorMessage += ": " +mensjae.getString("description");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                             } else {
                                 errorMessage += ": " + volleyError.getMessage();
                             }
                             Log.e("LoginActivity", errorMessage, volleyError);
-                            Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+                            AlertHelper.SimpleAlert(login.this, "Error",errorMessage, "Aceptar");
                         }
                     }
             );

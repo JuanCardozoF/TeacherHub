@@ -20,7 +20,6 @@ import java.util.List;
 public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherViewHolder> {
     private final List<Teacher> Teachers;
     private final Context context;
-
     private  static TeacherAdapter.OnButtonClickListener buttonClickListener;
 
     public TeacherAdapter(List<Teacher> Teachers, Context context, OnButtonClickListener onButtonClickListener) {
